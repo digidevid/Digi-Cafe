@@ -4,7 +4,7 @@ export default {
 
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
-    title: 'digi-cafe',
+    title: 'Digi-Cafe',
     htmlAttrs: {
       lang: 'en',
     },
@@ -30,7 +30,7 @@ export default {
   plugins: [],
 
   router: {
-    base: '/digi-cafe',
+    base: '/Digi-Cafe',
   },
 
   // Auto import components: https://go.nuxtjs.dev/config-components
