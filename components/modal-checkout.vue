@@ -57,11 +57,13 @@
                 placeholder="Ketik Nama Kamu.."
               />
             </div>
-            <div class="mb-4">
+            <div class="mb-4 text-sm p-3 rounded-xl bg-orange-100">
               <p>
-                <b>Nb:</b> Kamu akan diarahkan ke whatsapp setelah menekan
-                tombol pesan. Pastikan pesan whatsapp terkirim.
+                Pastikan pesanan sudah sesuai. Kamu akan diarahkan ke whatsapp
+                setelah menekan tombol pesan. Pastikan pesan whatsapp tidak
+                diubah dan terkirim.
               </p>
+              <p><b>Nb:</b> Harap melakukan pembayaran saat pesanan diantar.</p>
             </div>
             <div>
               <button
