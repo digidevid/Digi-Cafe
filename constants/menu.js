@@ -12,6 +12,7 @@ export const foods = [
     price: 15000,
     quantity: 0,
     totalPrice: 0,
+    label: 'Best Seller',
   },
   {
     id: 3,
@@ -26,6 +27,7 @@ export const foods = [
     price: 13000,
     quantity: 0,
     totalPrice: 0,
+    label: 'Best Seller',
   },
   {
     id: 5,
@@ -47,6 +49,7 @@ export const foods = [
     price: 8000,
     quantity: 0,
     totalPrice: 0,
+    label: 'Best Seller',
   },
   {
     id: 8,
@@ -128,6 +131,30 @@ export const foods = [
 ]
 
 export const drinks = [
+  {
+    id: 25,
+    name: 'Tropical Punch',
+    price: 13000,
+    quantity: 0,
+    totalPrice: 0,
+    label: 'NEW',
+  },
+  {
+    id: 26,
+    name: 'Matcha Vanilla',
+    price: 13000,
+    quantity: 0,
+    totalPrice: 0,
+    label: 'NEW',
+  },
+  {
+    id: 27,
+    name: 'Orange Soda',
+    price: 13000,
+    quantity: 0,
+    totalPrice: 0,
+    label: 'NEW',
+  },
   {
     id: 1,
     name: 'Air Mineral',
@@ -232,6 +259,7 @@ export const drinks = [
     price: 9000,
     quantity: 0,
     totalPrice: 0,
+    label: 'Best Seller',
   },
   {
     id: 16,
@@ -239,6 +267,7 @@ export const drinks = [
     price: 8000,
     quantity: 0,
     totalPrice: 0,
+    label: 'Best Seller',
   },
   {
     id: 17,
@@ -253,6 +282,7 @@ export const drinks = [
     price: 10000,
     quantity: 0,
     totalPrice: 0,
+    label: 'Best Seller',
   },
   {
     id: 19,
@@ -293,13 +323,6 @@ export const drinks = [
     id: 24,
     name: 'Es Kosong',
     price: 2000,
-    quantity: 0,
-    totalPrice: 0,
-  },
-  {
-    id: 25,
-    name: 'Tropical Soda',
-    price: 10000,
     quantity: 0,
     totalPrice: 0,
   },

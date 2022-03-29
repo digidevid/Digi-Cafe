@@ -1,14 +1,27 @@
 <template>
   <div class="max-w-lg mx-auto bg-blue-100">
-    <div class="p-8">
+    <div class="py-8 px-5">
       <h1 class="text-center text-3xl font-bold mb-4">Menu DigiCafe</h1>
       <div>
         <h3 class="text-xl font-bold mb-2">Foods</h3>
         <div v-for="(food, id) in foods" :key="id">
           <div
-            class="flex justify-between items-center border-b-2 border-dashed border-yellow-600 p-2"
+            class="flex justify-between items-center border-b-2 border-dashed border-yellow-600 p-2 relative z-0"
           >
-            <p>{{ food.name }}</p>
+            <div class="flex space-x-3 items-center">
+              <div>
+                <p>{{ food.name }}</p>
+                <p class="text-sm text-gray-600">
+                  {{ toRupiah(food.price) }}
+                </p>
+              </div>
+              <div
+                v-if="food.label && food.label.toLowerCase() === 'new'"
+                class="text-white font-bold text-xs text-shadow-new animate-bounce"
+              >
+                {{ food.label }}
+              </div>
+            </div>
             <div class="flex space-x-3 items-center">
               <button @click="minus(food)" :disabled="food.quantity === 0">
                 <font-awesome-icon
@@ -24,6 +37,16 @@
                 />
               </button>
             </div>
+            <div
+              v-if="food.label && food.label.toLowerCase() === 'best seller'"
+              class="absolute -z-10 top-0 left-0 w-full h-full"
+            >
+              <div class="absolute stamp">
+                <div class="price-tag text-xs animate-pulse">
+                  {{ food.label }}
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -31,10 +54,23 @@
         <h3 class="text-xl font-bold mt-4 mb-2">Drinks</h3>
         <div v-for="(drink, id) in drinks" :key="id">
           <div
-            class="flex justify-between items-center border-b-2 border-dashed border-yellow-600 p-2"
+            class="flex justify-between items-center border-b-2 border-dashed border-yellow-600 p-2 relative z-0"
           >
-            <p>{{ drink.name }}</p>
             <div class="flex space-x-3 items-center">
+              <div>
+                <p>{{ drink.name }}</p>
+                <p class="text-sm text-gray-600">
+                  {{ toRupiah(drink.price) }}
+                </p>
+              </div>
+              <div
+                v-if="drink.label && drink.label.toLowerCase() === 'new'"
+                class="text-white font-bold text-xs text-shadow-new animate-bounce"
+              >
+                {{ drink.label }}
+              </div>
+            </div>
+            <div class="flex space-x-3 items-center float-right">
               <button @click="minus(drink)" :disabled="drink.quantity === 0">
                 <font-awesome-icon
                   :icon="['fa', 'circle-minus']"
@@ -48,6 +84,16 @@
                   class="text-green-400 w-6 h-6"
                 />
               </button>
+            </div>
+            <div
+              v-if="drink.label && drink.label.toLowerCase() === 'best seller'"
+              class="absolute -z-10 top-0 left-0 w-full h-full"
+            >
+              <div class="absolute stamp">
+                <div class="price-tag text-xs animate-pulse">
+                  {{ drink.label }}
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -208,3 +254,72 @@ export default {
   },
 }
 </script>
+
+<style scoped>
+.text-shadow-new {
+  color: rgb(233, 112, 132);
+  background-color: yellow;
+  text-shadow: 1.5px 1.5px blue;
+  box-shadow: 2px 2px blue;
+  border: 2px solid rgb(233, 112, 132);
+  border-radius: 10px;
+  padding: 2px 4px;
+}
+.stamp {
+  top: 50%;
+  right: 65px;
+  transform: translate(-50%, -50%);
+}
+.price-tag {
+  background: rgb(243, 97, 97);
+  color: #fff;
+
+  /* Center the price */
+  align-items: center;
+  display: flex;
+  justify-content: center;
+
+  /* Used to position the triangle */
+  position: relative;
+
+  /* Size */
+  height: 2rem;
+
+  /* Spacing */
+  padding: 0.25rem 0.5rem;
+}
+
+/* The triangle */
+.price-tag::before {
+  content: '';
+
+  border-color: transparent rgb(243, 97, 97) transparent transparent;
+  border-style: solid;
+  border-width: calc(2rem / 2) calc(2rem / 2) calc(2rem / 2) 0rem;
+
+  /* Position */
+  left: 0px;
+  position: absolute;
+  top: 0px;
+  transform: translate(-100%, 0px);
+}
+
+/* The Dotted */
+.price-tag::after {
+  content: '';
+
+  /* Make it like a cirle */
+  background: #fff;
+  border-radius: 9999rem;
+
+  /* Position */
+  left: 3px;
+  position: absolute;
+  top: 50%;
+  transform: translate(-0.5rem, -50%);
+
+  /* Size */
+  height: 0.5rem;
+  width: 0.5rem;
+}
+</style>
