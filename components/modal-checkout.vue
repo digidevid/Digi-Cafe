@@ -76,7 +76,7 @@
                   <i class="fa fa-circle-o-notch fa-spin"></i>
                   Loading...
                 </div>
-                <div v-else>Submit</div>
+                <div v-else>Pesan</div>
               </button>
             </div>
           </div>

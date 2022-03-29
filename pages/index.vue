@@ -3,7 +3,7 @@
     <div class="py-8 px-5">
       <h1 class="text-center text-3xl font-bold mb-4">Menu DigiCafe</h1>
       <div>
-        <h3 class="text-xl font-bold mb-2">Foods</h3>
+        <h3 class="text-xl font-bold mb-2">Makanan</h3>
         <div v-for="(food, id) in foods" :key="id">
           <div
             class="flex justify-between items-center border-b-2 border-dashed border-yellow-600 p-2 relative z-0"
@@ -51,7 +51,7 @@
         </div>
       </div>
       <div>
-        <h3 class="text-xl font-bold mt-4 mb-2">Drinks</h3>
+        <h3 class="text-xl font-bold mt-4 mb-2">Minuman</h3>
         <div v-for="(drink, id) in drinks" :key="id">
           <div
             class="flex justify-between items-center border-b-2 border-dashed border-yellow-600 p-2 relative z-0"
@@ -111,7 +111,7 @@
           class="bg-red-500 w-full py-3 text-lg font-semibold text-white rounded-md"
           @click="reset"
         >
-          Reset
+          Hapus
         </button>
       </div>
       <div class="p-2">
