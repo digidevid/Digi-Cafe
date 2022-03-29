@@ -57,13 +57,12 @@
                 placeholder="Ketik Nama Kamu.."
               />
             </div>
-            <!-- <div class="mb-4">
+            <div class="mb-4">
               <p>
-                <b>Nb:</b> Demi kenyamanan bersama, kamu diharuskan membayar di
-                awal sebelum pesanan di proses. Harap mengirim bukti pembayaran
-                setelah whatsapp dikirim.
+                <b>Nb:</b> Kamu akan diarahkan ke whatsapp setelah menekan
+                tombol pesan. Pastikan pesan whatsapp terkirim.
               </p>
-            </div> -->
+            </div>
             <div>
               <button
                 class="bg-blue-500 w-full py-3 text-lg font-semibold text-white rounded-md disabled:opacity-50"
