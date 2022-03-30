@@ -3,7 +3,57 @@
     <div class="py-8 px-5">
       <h1 class="text-center text-3xl font-bold mb-4">Menu DigiCafe</h1>
       <div>
-        <h3 class="text-xl font-bold mb-2">Makanan</h3>
+        <h3 class="text-xl font-bold mb-2">Paketan</h3>
+        <div v-for="(packet, id) in packets" :key="id">
+          <div
+            class="flex justify-between items-center border-b-2 border-dashed border-yellow-600 p-2 relative z-0"
+          >
+            <div class="flex space-x-3 items-center">
+              <div>
+                <p>{{ packet.name }}</p>
+                <p class="text-sm text-gray-600">
+                  {{ toRupiah(packet.price) }}
+                </p>
+              </div>
+              <div
+                v-if="packet.label && packet.label.toLowerCase() === 'new'"
+                class="text-white font-bold text-xs text-shadow-new animate-bounce"
+              >
+                {{ packet.label }}
+              </div>
+            </div>
+            <div class="flex space-x-3 items-center">
+              <button @click="minus(packet)" :disabled="packet.quantity === 0">
+                <font-awesome-icon
+                  :icon="['fa', 'circle-minus']"
+                  class="text-red-400 w-6 h-6"
+                />
+              </button>
+              <p>{{ packet.quantity }}</p>
+              <button @click="plus(packet)">
+                <font-awesome-icon
+                  :icon="['fa', 'circle-plus']"
+                  class="text-green-400 w-6 h-6"
+                />
+              </button>
+            </div>
+            <div
+              v-if="
+                packet.label && packet.label.toLowerCase() === 'best seller'
+              "
+              class="absolute -z-10 top-0 left-0 w-full h-full"
+            >
+              <div class="absolute stamp">
+                <div class="price-tag text-xs animate-pulse">
+                  {{ packet.label }}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div>
+        <h3 class="text-xl font-bold mt-4 mb-2">Makanan</h3>
         <div v-for="(food, id) in foods" :key="id">
           <div
             class="flex justify-between items-center border-b-2 border-dashed border-yellow-600 p-2 relative z-0"
@@ -136,7 +186,7 @@
 
 <script>
 import ModalCheckout from '../components/modal-checkout.vue'
-import { foods, drinks } from '../constants/menu'
+import { packets, foods, drinks } from '../constants/menu'
 import { toRupiah } from '../helper/currency'
 export default {
   name: 'IndexPage',
@@ -145,6 +195,7 @@ export default {
   },
   data() {
     return {
+      packets,
       foods,
       drinks,
       total: 0,
@@ -165,15 +216,22 @@ export default {
       this.calculate()
     },
     calculate() {
+      const totalPacketPrice = this.packets
+        .map((item) => item.totalPrice)
+        .reduce((prev, curr) => prev + curr, 0)
       const totalFoodPrice = this.foods
         .map((item) => item.totalPrice)
         .reduce((prev, curr) => prev + curr, 0)
       const totalDrinkPrice = this.drinks
         .map((item) => item.totalPrice)
         .reduce((prev, curr) => prev + curr, 0)
-      this.total = totalFoodPrice + totalDrinkPrice
+      this.total = totalPacketPrice + totalFoodPrice + totalDrinkPrice
     },
     reset() {
+      this.packets.forEach((el) => {
+        el.quantity = 0
+        el.totalPrice = 0
+      })
       this.foods.forEach((el) => {
         el.quantity = 0
         el.totalPrice = 0
@@ -185,7 +243,7 @@ export default {
       this.total = 0
     },
     checkout() {
-      const allMenu = this.foods.concat(this.drinks)
+      const allMenu = this.packets.concat(this.foods).concat(this.drinks)
       this.checkoutItems = allMenu.filter((item) => item.quantity > 0)
       this.isShowModalCheckout = true
     },
@@ -244,7 +302,7 @@ export default {
         )
       })
       Promise.all(fetches).then((res) => {
-        window.location.href = whatsappUrl
+        window.location = whatsappUrl
         this.isShowModalCheckout = false
         this.isLoadingSubmit = false
         this.reset()
