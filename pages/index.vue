@@ -2,150 +2,171 @@
   <div class="max-w-lg mx-auto bg-blue-100">
     <div class="py-8 px-5">
       <h1 class="text-center text-3xl font-bold mb-4">Menu DigiCafe</h1>
-      <div>
-        <h3 class="text-xl font-bold mb-2">Paketan</h3>
-        <div v-for="(packet, id) in packets" :key="id">
-          <div
-            class="flex justify-between items-center border-b-2 border-dashed border-yellow-600 p-2 relative z-0"
-          >
-            <div class="flex space-x-3 items-center">
-              <div>
-                <p>{{ packet.name }}</p>
-                <p class="text-sm text-gray-600">
-                  {{ toRupiah(packet.price) }}
-                </p>
+      <div v-if="!isLoadingMenu">
+        <div>
+          <h3 class="text-xl font-bold mb-2">Paketan</h3>
+          <div v-for="(packet, id) in packetMenus" :key="id">
+            <div
+              class="flex justify-between items-center border-b-2 border-dashed border-yellow-600 p-2 relative z-0"
+            >
+              <div class="flex space-x-3 items-center">
+                <div>
+                  <p>{{ packet.name }}</p>
+                  <p class="text-sm text-gray-600">
+                    {{ toRupiah(packet.price) }}
+                  </p>
+                </div>
+                <div
+                  v-if="packet.isNewMenu"
+                  class="text-white font-bold text-xs text-shadow-new animate-bounce"
+                >
+                  NEW
+                </div>
+              </div>
+              <div class="flex space-x-3 items-center">
+                <button
+                  @click="minus(packet)"
+                  :disabled="packet.quantity === 0"
+                >
+                  <font-awesome-icon
+                    :icon="['fa', 'circle-minus']"
+                    class="text-red-400 w-6 h-6"
+                  />
+                </button>
+                <p>{{ packet.quantity }}</p>
+                <button @click="plus(packet)">
+                  <font-awesome-icon
+                    :icon="['fa', 'circle-plus']"
+                    class="text-green-400 w-6 h-6"
+                  />
+                </button>
               </div>
               <div
-                v-if="packet.label && packet.label.toLowerCase() === 'new'"
-                class="text-white font-bold text-xs text-shadow-new animate-bounce"
+                v-if="packet.isBest"
+                class="absolute -z-10 top-0 left-0 w-full h-full"
               >
-                {{ packet.label }}
+                <div class="absolute stamp">
+                  <div class="price-tag text-xs animate-pulse">Best Seller</div>
+                </div>
               </div>
             </div>
-            <div class="flex space-x-3 items-center">
-              <button @click="minus(packet)" :disabled="packet.quantity === 0">
-                <font-awesome-icon
-                  :icon="['fa', 'circle-minus']"
-                  class="text-red-400 w-6 h-6"
-                />
-              </button>
-              <p>{{ packet.quantity }}</p>
-              <button @click="plus(packet)">
-                <font-awesome-icon
-                  :icon="['fa', 'circle-plus']"
-                  class="text-green-400 w-6 h-6"
-                />
-              </button>
-            </div>
+          </div>
+        </div>
+        <div>
+          <h3 class="text-xl font-bold mt-4 mb-2">Makanan</h3>
+          <div v-for="(food, id) in foodMenus" :key="id">
             <div
-              v-if="
-                packet.label && packet.label.toLowerCase() === 'best seller'
-              "
-              class="absolute -z-10 top-0 left-0 w-full h-full"
+              class="flex justify-between items-center border-b-2 border-dashed border-yellow-600 p-2 relative z-0"
             >
-              <div class="absolute stamp">
-                <div class="price-tag text-xs animate-pulse">
-                  {{ packet.label }}
+              <div class="flex space-x-3 items-center">
+                <div>
+                  <p>{{ food.name }}</p>
+                  <p class="text-sm text-gray-600">
+                    {{ toRupiah(food.price) }}
+                  </p>
+                </div>
+                <div
+                  v-if="food.isNewMenu"
+                  class="text-white font-bold text-xs text-shadow-new animate-bounce"
+                >
+                  NEW
+                </div>
+              </div>
+              <div class="flex space-x-3 items-center">
+                <button @click="minus(food)" :disabled="food.quantity === 0">
+                  <font-awesome-icon
+                    :icon="['fa', 'circle-minus']"
+                    class="text-red-400 w-6 h-6"
+                  />
+                </button>
+                <p>{{ food.quantity }}</p>
+                <button @click="plus(food)">
+                  <font-awesome-icon
+                    :icon="['fa', 'circle-plus']"
+                    class="text-green-400 w-6 h-6"
+                  />
+                </button>
+              </div>
+              <div
+                v-if="food.isBest"
+                class="absolute -z-10 top-0 left-0 w-full h-full"
+              >
+                <div class="absolute stamp">
+                  <div class="price-tag text-xs animate-pulse">Best Seller</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div>
+          <h3 class="text-xl font-bold mt-4 mb-2">Minuman</h3>
+          <div v-for="(drink, id) in drinkMenus" :key="id">
+            <div
+              class="flex justify-between items-center border-b-2 border-dashed border-yellow-600 p-2 relative z-0"
+            >
+              <div class="flex space-x-3 items-center">
+                <div>
+                  <p>{{ drink.name }}</p>
+                  <p class="text-sm text-gray-600">
+                    {{ toRupiah(drink.price) }}
+                  </p>
+                </div>
+                <div
+                  v-if="drink.isNewMenu"
+                  class="text-white font-bold text-xs text-shadow-new animate-bounce"
+                >
+                  NEW
+                </div>
+              </div>
+              <div class="flex space-x-3 items-center float-right">
+                <button @click="minus(drink)" :disabled="drink.quantity === 0">
+                  <font-awesome-icon
+                    :icon="['fa', 'circle-minus']"
+                    class="text-red-400 w-6 h-6"
+                  />
+                </button>
+                <p>{{ drink.quantity }}</p>
+                <button @click="plus(drink)">
+                  <font-awesome-icon
+                    :icon="['fa', 'circle-plus']"
+                    class="text-green-400 w-6 h-6"
+                  />
+                </button>
+              </div>
+              <div
+                v-if="drink.isBest"
+                class="absolute -z-10 top-0 left-0 w-full h-full"
+              >
+                <div class="absolute stamp">
+                  <div class="price-tag text-xs animate-pulse">Best Seller</div>
                 </div>
               </div>
             </div>
           </div>
         </div>
       </div>
-      <div>
-        <h3 class="text-xl font-bold mt-4 mb-2">Makanan</h3>
-        <div v-for="(food, id) in foods" :key="id">
-          <div
-            class="flex justify-between items-center border-b-2 border-dashed border-yellow-600 p-2 relative z-0"
-          >
-            <div class="flex space-x-3 items-center">
-              <div>
-                <p>{{ food.name }}</p>
-                <p class="text-sm text-gray-600">
-                  {{ toRupiah(food.price) }}
-                </p>
-              </div>
-              <div
-                v-if="food.label && food.label.toLowerCase() === 'new'"
-                class="text-white font-bold text-xs text-shadow-new animate-bounce"
-              >
-                {{ food.label }}
-              </div>
-            </div>
-            <div class="flex space-x-3 items-center">
-              <button @click="minus(food)" :disabled="food.quantity === 0">
-                <font-awesome-icon
-                  :icon="['fa', 'circle-minus']"
-                  class="text-red-400 w-6 h-6"
-                />
-              </button>
-              <p>{{ food.quantity }}</p>
-              <button @click="plus(food)">
-                <font-awesome-icon
-                  :icon="['fa', 'circle-plus']"
-                  class="text-green-400 w-6 h-6"
-                />
-              </button>
-            </div>
-            <div
-              v-if="food.label && food.label.toLowerCase() === 'best seller'"
-              class="absolute -z-10 top-0 left-0 w-full h-full"
-            >
-              <div class="absolute stamp">
-                <div class="price-tag text-xs animate-pulse">
-                  {{ food.label }}
-                </div>
-              </div>
+      <div v-else class="w-full h-screen pt-8 px-6">
+        <div class="w-full animate-pulse flex justify-between items-center">
+          <div class="animate-pulse w-full">
+            <div class="rounded-full w-3/4 h-4 bg-slate-400"></div>
+            <div class="mt-2 flex space-x-2">
+              <div class="rounded-full w-10 h-4 bg-slate-400"></div>
+              <div class="rounded-full w-1/3 h-4 bg-slate-400"></div>
             </div>
           </div>
+          <div class="rounded-full w-12 h-10 bg-slate-400"></div>
         </div>
-      </div>
-      <div>
-        <h3 class="text-xl font-bold mt-4 mb-2">Minuman</h3>
-        <div v-for="(drink, id) in drinks" :key="id">
-          <div
-            class="flex justify-between items-center border-b-2 border-dashed border-yellow-600 p-2 relative z-0"
-          >
-            <div class="flex space-x-3 items-center">
-              <div>
-                <p>{{ drink.name }}</p>
-                <p class="text-sm text-gray-600">
-                  {{ toRupiah(drink.price) }}
-                </p>
-              </div>
-              <div
-                v-if="drink.label && drink.label.toLowerCase() === 'new'"
-                class="text-white font-bold text-xs text-shadow-new animate-bounce"
-              >
-                {{ drink.label }}
-              </div>
-            </div>
-            <div class="flex space-x-3 items-center float-right">
-              <button @click="minus(drink)" :disabled="drink.quantity === 0">
-                <font-awesome-icon
-                  :icon="['fa', 'circle-minus']"
-                  class="text-red-400 w-6 h-6"
-                />
-              </button>
-              <p>{{ drink.quantity }}</p>
-              <button @click="plus(drink)">
-                <font-awesome-icon
-                  :icon="['fa', 'circle-plus']"
-                  class="text-green-400 w-6 h-6"
-                />
-              </button>
-            </div>
-            <div
-              v-if="drink.label && drink.label.toLowerCase() === 'best seller'"
-              class="absolute -z-10 top-0 left-0 w-full h-full"
-            >
-              <div class="absolute stamp">
-                <div class="price-tag text-xs animate-pulse">
-                  {{ drink.label }}
-                </div>
-              </div>
+        <div
+          class="w-full animate-pulse flex justify-between items-center mt-6"
+        >
+          <div class="animate-pulse w-full">
+            <div class="rounded-full w-3/4 h-4 bg-slate-400"></div>
+            <div class="mt-2 flex space-x-2">
+              <div class="rounded-full w-10 h-4 bg-slate-400"></div>
+              <div class="rounded-full w-1/3 h-4 bg-slate-400"></div>
             </div>
           </div>
+          <div class="rounded-full w-12 h-10 bg-slate-400"></div>
         </div>
       </div>
     </div>
@@ -185,8 +206,8 @@
 </template>
 
 <script>
+import axios from 'axios'
 import ModalCheckout from '../components/modal-checkout.vue'
-import { packets, foods, drinks } from '../constants/menu'
 import { toRupiah } from '../helper/currency'
 export default {
   name: 'IndexPage',
@@ -195,16 +216,87 @@ export default {
   },
   data() {
     return {
-      packets,
-      foods,
-      drinks,
       total: 0,
+      allMenus: [],
+      packetMenus: [],
+      foodMenus: [],
+      drinkMenus: [],
       checkoutItems: [],
       isShowModalCheckout: false,
       isLoadingSubmit: false,
+      isLoadingMenu: true,
     }
   },
+  mounted() {
+    this.getAllMenus()
+  },
   methods: {
+    getAllMenus() {
+      this.isLoadingMenu = true
+      axios
+        .get('https://digicafe-api.herokuapp.com/api/menus')
+        .then((response) => {
+          this.allMenus = response.data
+
+          // Setting packet menus
+          this.packetMenus = this.allMenus.filter((el) => {
+            return el.type === 3
+          })
+
+          // Setting Food Menus
+          const newFood = this.allMenus
+            .filter((el) => {
+              return el.type === 1 && el.isNewMenu
+            })
+            .sort((a, b) => {
+              return a.name.localeCompare(b.name)
+            })
+          const oldFood = this.allMenus
+            .filter((el) => {
+              return el.type === 1 && !el.isNewMenu
+            })
+            .sort((a, b) => {
+              return a.name.localeCompare(b.name)
+            })
+          this.foodMenus = newFood.concat(oldFood)
+
+          // Setting Drink Menus
+          const newDrink = this.allMenus
+            .filter((el) => {
+              return el.type === 2 && el.isNewMenu
+            })
+            .sort((a, b) => {
+              return a.name.localeCompare(b.name)
+            })
+          const oldDrink = this.allMenus
+            .filter((el) => {
+              return el.type === 2 && !el.isNewMenu
+            })
+            .sort((a, b) => {
+              return a.name.localeCompare(b.name)
+            })
+          this.drinkMenus = newDrink.concat(oldDrink)
+
+          // Add quantity and total price
+          this.packetMenus.forEach((el) => {
+            el.quantity = 0
+            el.totalPrice = 0
+          })
+          this.foodMenus.forEach((el) => {
+            el.quantity = 0
+            el.totalPrice = 0
+          })
+          this.drinkMenus.forEach((el) => {
+            el.quantity = 0
+            el.totalPrice = 0
+          })
+          this.isLoadingMenu = false
+        })
+        .catch((error) => {
+          console.log(error)
+          this.isLoadingMenu = false
+        })
+    },
     minus(item) {
       item.quantity--
       item.totalPrice = item.price * item.quantity
@@ -216,34 +308,36 @@ export default {
       this.calculate()
     },
     calculate() {
-      const totalPacketPrice = this.packets
+      const totalPacketPrice = this.packetMenus
         .map((item) => item.totalPrice)
         .reduce((prev, curr) => prev + curr, 0)
-      const totalFoodPrice = this.foods
+      const totalFoodPrice = this.foodMenus
         .map((item) => item.totalPrice)
         .reduce((prev, curr) => prev + curr, 0)
-      const totalDrinkPrice = this.drinks
+      const totalDrinkPrice = this.drinkMenus
         .map((item) => item.totalPrice)
         .reduce((prev, curr) => prev + curr, 0)
       this.total = totalPacketPrice + totalFoodPrice + totalDrinkPrice
     },
     reset() {
-      this.packets.forEach((el) => {
+      this.packetMenus.forEach((el) => {
         el.quantity = 0
         el.totalPrice = 0
       })
-      this.foods.forEach((el) => {
+      this.foodMenus.forEach((el) => {
         el.quantity = 0
         el.totalPrice = 0
       })
-      this.drinks.forEach((el) => {
+      this.drinkMenus.forEach((el) => {
         el.quantity = 0
         el.totalPrice = 0
       })
       this.total = 0
     },
     checkout() {
-      const allMenu = this.packets.concat(this.foods).concat(this.drinks)
+      const allMenu = this.packetMenus
+        .concat(this.foodMenus)
+        .concat(this.drinkMenus)
       this.checkoutItems = allMenu.filter((item) => item.quantity > 0)
       this.isShowModalCheckout = true
     },
