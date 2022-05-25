@@ -23,7 +23,10 @@
                   NEW
                 </div>
               </div>
-              <div class="flex space-x-3 items-center">
+              <div
+                v-if="packet.isAvailable"
+                class="flex space-x-3 items-center"
+              >
                 <button
                   @click="minus(packet)"
                   :disabled="packet.quantity === 0"
@@ -41,6 +44,7 @@
                   />
                 </button>
               </div>
+              <div v-else>Kosong</div>
               <div
                 v-if="packet.isBest"
                 class="absolute -z-10 top-0 left-0 w-full h-full"
@@ -72,7 +76,7 @@
                   NEW
                 </div>
               </div>
-              <div class="flex space-x-3 items-center">
+              <div v-if="food.isAvailable" class="flex space-x-3 items-center">
                 <button @click="minus(food)" :disabled="food.quantity === 0">
                   <font-awesome-icon
                     :icon="['fa', 'circle-minus']"
@@ -87,6 +91,7 @@
                   />
                 </button>
               </div>
+              <div v-else>Kosong</div>
               <div
                 v-if="food.isBest"
                 class="absolute -z-10 top-0 left-0 w-full h-full"
@@ -118,7 +123,10 @@
                   NEW
                 </div>
               </div>
-              <div class="flex space-x-3 items-center float-right">
+              <div
+                v-if="drink.isAvailable"
+                class="flex space-x-3 items-center float-right"
+              >
                 <button @click="minus(drink)" :disabled="drink.quantity === 0">
                   <font-awesome-icon
                     :icon="['fa', 'circle-minus']"
@@ -133,6 +141,7 @@
                   />
                 </button>
               </div>
+              <div v-else>Kosong</div>
               <div
                 v-if="drink.isBest"
                 class="absolute -z-10 top-0 left-0 w-full h-full"
